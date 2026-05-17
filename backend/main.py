@@ -30,6 +30,7 @@ app.mount("/resume", StaticFiles(directory=str(ROOT_DIR / "ai-resume"), html=Tru
 app.mount("/service", StaticFiles(directory=str(ROOT_DIR / "ai-customer-service"), html=True), name="service")
 app.mount("/guide", StaticFiles(directory=str(ROOT_DIR / "ai-shopping-guide"), html=True), name="guide")
 app.mount("/scrm", StaticFiles(directory=str(ROOT_DIR / "scrm-system"), html=True), name="scrm")
+app.mount("/assets", StaticFiles(directory=str(ROOT_DIR / "scrm-system" / "assets")), name="scrm_assets")
 app.mount("/cockpit", StaticFiles(directory=str(ROOT_DIR / "ai-data-cockpit"), html=True), name="cockpit")
 
 @app.get("/")
