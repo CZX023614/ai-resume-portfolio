@@ -21,6 +21,18 @@ app = FastAPI(title="AI Resume Backend")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 BASE_DIR = Path(__file__).resolve().parent
+ROOT_DIR = BASE_DIR.parent  # standalone-pages root
+
+# ═══════════════════════════════════════════════════════════
+#  Static file mounts (frontend pages served from same origin)
+# ═══════════════════════════════════════════════════════════
+app.mount("/resume", StaticFiles(directory=str(ROOT_DIR / "ai-resume"), html=True), name="resume")
+app.mount("/service", StaticFiles(directory=str(ROOT_DIR / "ai-customer-service"), html=True), name="service")
+app.mount("/guide", StaticFiles(directory=str(ROOT_DIR / "ai-shopping-guide"), html=True), name="guide")
+
+@app.get("/")
+def home():
+    return FileResponse(str(ROOT_DIR / "ai-resume" / "index.html"))
 
 # ═══════════════════════════════════════════════════════════
 #  Startup
@@ -682,4 +694,6 @@ def _build_recommendations(message: str, prefs: dict, rag_results: list):
 # ═══════════════════════════════════════════════════════════
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8765, reload=True)
+    import os
+    port = int(os.environ.get("PORT", 80))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
