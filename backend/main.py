@@ -9,7 +9,7 @@ import uuid
 import asyncio
 from pathlib import Path
 from fastapi import FastAPI, HTTPException, UploadFile, File
-from fastapi.responses import StreamingResponse, FileResponse, JSONResponse
+from fastapi.responses import StreamingResponse, FileResponse, JSONResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -37,6 +37,18 @@ app.mount("/cockpit", StaticFiles(directory=str(ROOT_DIR / "ai-data-cockpit"), h
 @app.get("/scrm/")
 @app.get("/scrm/{rest_of_path:path}")
 async def scrm_spa(rest_of_path: str = ""):
+    # Use iframe wrapper so React Router with basename="/" works correctly
+    path = rest_of_path or ""
+    frame_url = f"/scrm-app/{path}" if path else "/scrm-app/"
+    return HTMLResponse(f"""<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SCRM系统</title>
+<style>*{{margin:0;padding:0}}iframe{{width:100%;height:100vh;border:none;position:fixed;top:0;left:0}}</style>
+</head><body><iframe src="{frame_url}"></iframe></body></html>""")
+
+@app.get("/scrm-app/")
+@app.get("/scrm-app/{rest_of_path:path}")
+async def scrm_frame(rest_of_path: str = ""):
     return FileResponse(str(ROOT_DIR / "scrm-system" / "index.html"))
 
 @app.get("/")
