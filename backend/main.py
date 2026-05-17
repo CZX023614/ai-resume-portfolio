@@ -36,6 +36,10 @@ app.mount("/cockpit", StaticFiles(directory=str(ROOT_DIR / "ai-data-cockpit"), h
 def home():
     return FileResponse(str(ROOT_DIR / "ai-resume" / "index.html"))
 
+@app.get("/photo.jpg")
+def photo():
+    return FileResponse(str(ROOT_DIR / "ai-resume" / "photo.jpg"))
+
 # ═══════════════════════════════════════════════════════════
 #  Startup
 # ═══════════════════════════════════════════════════════════
