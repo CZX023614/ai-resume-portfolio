@@ -29,9 +29,15 @@ ROOT_DIR = BASE_DIR.parent  # standalone-pages root
 app.mount("/resume", StaticFiles(directory=str(ROOT_DIR / "ai-resume"), html=True), name="resume")
 app.mount("/service", StaticFiles(directory=str(ROOT_DIR / "ai-customer-service"), html=True), name="service")
 app.mount("/guide", StaticFiles(directory=str(ROOT_DIR / "ai-shopping-guide"), html=True), name="guide")
-app.mount("/scrm", StaticFiles(directory=str(ROOT_DIR / "scrm-system"), html=True), name="scrm")
 app.mount("/assets", StaticFiles(directory=str(ROOT_DIR / "scrm-system" / "assets")), name="scrm_assets")
 app.mount("/cockpit", StaticFiles(directory=str(ROOT_DIR / "ai-data-cockpit"), html=True), name="cockpit")
+
+# SCRM as SPA: serve index.html for any /scrm/* path
+@app.get("/scrm")
+@app.get("/scrm/")
+@app.get("/scrm/{rest_of_path:path}")
+async def scrm_spa(rest_of_path: str = ""):
+    return FileResponse(str(ROOT_DIR / "scrm-system" / "index.html"))
 
 @app.get("/")
 def home():
