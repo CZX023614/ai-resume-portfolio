@@ -177,9 +177,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 
 <script>
 // ═══════════ CONFIG ═══════════
-var API_BASE = window.location.hostname === 'localhost'
-  ? 'http://localhost:8765'
-  : 'https://your-backend-server.com';
+var API_BASE = 'http://8.162.22.127';
 
 document.getElementById('backToResume').href = 'https://resumeczx.netlify.app/';
 document.getElementById('adminLink').href = API_BASE + '/admin';
