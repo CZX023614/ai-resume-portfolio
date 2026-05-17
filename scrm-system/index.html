@@ -4,6 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>全屋智能SCRM系统</title>
+    <script>
+      // ═══════ SPA Subpath Fix ═══════
+      (function() {
+        var BASE = '/scrm';
+        if (window.location.pathname.startsWith(BASE)) {
+          var virtualPath = window.location.pathname.slice(BASE.length) || '/';
+          window.history.replaceState(null, '', virtualPath);
+          var _push = history.pushState, _replace = history.replaceState;
+          history.pushState = function(s, t, u) {
+            if (typeof u === 'string' && !u.startsWith('http') && !u.startsWith(BASE)) u = BASE + (u.startsWith('/')?u:'/'+u);
+            return _push.call(this, s, t, u);
+          };
+          history.replaceState = function(s, t, u) {
+            if (typeof u === 'string' && !u.startsWith('http') && !u.startsWith(BASE)) u = BASE + (u.startsWith('/')?u:'/'+u);
+            return _replace.call(this, s, t, u);
+          };
+        }
+      })();
+    </script>
     <script type="module" crossorigin src="/assets/index-W8lCRjX5.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-ekPq5VgP.css">
     <style>
