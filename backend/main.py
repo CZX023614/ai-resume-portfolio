@@ -84,10 +84,30 @@ async def customer_service_chat(req: ChatRequest):
     system_prompt = _get_prompt("customer_service_system")
     fewshot = _get_prompt("customer_service_fewshot")
 
-    # 4. Build messages
+    # 4. Build messages with fallback logic
+    auto_handoff = confidence < 0.75
+    fallback_mode = not rag_context or confidence < 0.3
+
+    fallback_instruction = ""
+    if fallback_mode:
+        fallback_instruction = (
+            "\n\n## ⚠️ 兜底模式\n"
+            "知识库中未找到匹配答案，请按以下规则回复：\n"
+            "1. 先表达歉意，说明暂时无法准确解答\n"
+            "2. 根据用户问题类型，提供1-2个通用建议或引导\n"
+            "3. 建议用户联系人工客服获得更详细帮助\n"
+            "4. 语气友善、不让用户感到被拒绝"
+        )
+    elif auto_handoff:
+        fallback_instruction = (
+            "\n\n## ⚠️ 低置信度\n"
+            "请基于知识库尽力回答，并在结尾提醒用户如需更详细帮助可联系人工客服。"
+        )
+
     full_system = system_prompt
     if rag_context:
-        full_system += f"\n\n## 知识库参考（基于用户问题检索）\n{rag_context}\n\n请基于以上知识库内容回答用户问题。如果知识库中没有相关信息，请诚实告知并建议联系人工客服。"
+        full_system += f"\n\n## 知识库参考（基于用户问题检索）\n{rag_context}"
+    full_system += fallback_instruction
     if fewshot:
         full_system += f"\n\n## 对话示例\n{fewshot}"
 
@@ -98,8 +118,9 @@ async def customer_service_chat(req: ChatRequest):
         pipeline_data = {
             "intent": intent, "sub_intent": sub_intent,
             "entities": entities, "sentiment": sentiment,
-            "confidence": {"score": confidence, "auto_handoff": confidence < 0.75},
-            "rag_sources": [{"category": r['category'], "question": r['question'], "score": r['score']} for r in rag_results[:5]]
+            "confidence": {"score": confidence, "auto_handoff": auto_handoff},
+            "rag_sources": [{"category": r['category'], "question": r['question'], "score": r['score']} for r in rag_results[:5]],
+            "fallback": fallback_mode,
         }
         yield f"event: pipeline\ndata: {json.dumps(pipeline_data, ensure_ascii=False)}\n\n"
 
@@ -116,6 +137,9 @@ async def customer_service_chat(req: ChatRequest):
 
         # Save assistant message
         if full_response:
+            _save_chat(session_id, "customer_service", "assistant", full_response, intent=intent, confidence=confidence)
+        elif fallback_mode:
+            full_response = "抱歉，我暂时无法准确回答这个问题 😊 建议您联系人工客服获取更详细的帮助。您可以在APP「我的-帮助中心」找到在线客服入口。"
             _save_chat(session_id, "customer_service", "assistant", full_response, intent=intent, confidence=confidence)
 
         yield f"event: done\ndata: {json.dumps({'session_id': session_id})}\n\n"

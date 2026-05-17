@@ -12,7 +12,7 @@
   --green: #2d9d6c; --red: #d9534f;
   --shadow: 0 2px 16px rgba(60,40,20,0.06);
   --shadow-lg: 0 8px 40px rgba(60,40,20,0.10);
-  --radius: 16px; --radius-sm: 10px; --radius-xs: 6px;
+  --radius: 16px; --radius-sm: 10px;
   --font: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
   --mono: 'SF Mono', 'JetBrains Mono', 'Consolas', monospace;
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -30,76 +30,15 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 99px; border: 1px solid var(--border); margin-bottom: 20px; position: sticky; top: 12px; z-index: 100; box-shadow: var(--shadow); }
 .topbar-logo { font-weight: 800; font-size: 15px; color: var(--accent); letter-spacing: -0.5px; }
 .section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-.section-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-.section-icon.work { background: #fef0e6; color: var(--accent2); }
+.section-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; background: #fef0e6; color: var(--accent2); }
 .section-title { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
 .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes scaleIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
 ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-/* ═══════ MODE TABS ═══════ */
-.mode-tabs { display: flex; gap: 4px; padding: 4px; background: var(--card); border-radius: 99px; margin-bottom: 20px; width: fit-content; box-shadow: var(--shadow); }
-.mode-tab { padding: 9px 22px; border-radius: 99px; border: none; cursor: pointer; font-size: 13px; font-weight: 600; font-family: var(--font); background: transparent; color: var(--dim); transition: var(--transition); }
-.mode-tab.active { background: var(--accent); color: #fff; box-shadow: 0 2px 12px rgba(212,145,62,0.3); }
-.mode-tab:hover:not(.active) { color: var(--accent); }
-
-/* ═══════ CATALOG MODE ═══════ */
-.catalog-filters { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-.catalog-filters select, .catalog-filters input { padding: 7px 14px; border-radius: 99px; border: 1px solid var(--border); font-size: 12px; font-family: var(--font); background: var(--card); cursor: pointer; outline: none; }
-.catalog-filters input:focus { border-color: var(--accent); }
-.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
-.product-card { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); border: 1px solid transparent; transition: var(--transition); cursor: pointer; animation: scaleIn 0.3s ease forwards; display: flex; flex-direction: column; }
-.product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
-.product-card .prod-emoji { font-size: 48px; text-align: center; margin-bottom: 10px; line-height: 1; }
-.product-card .prod-name { font-weight: 700; font-size: 15px; color: var(--text); margin-bottom: 4px; }
-.product-card .prod-cat { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-.product-card .prod-price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px; }
-.product-card .prod-price { font-size: 22px; font-weight: 800; color: var(--accent2); }
-.product-card .prod-original { font-size: 12px; color: var(--dim); text-decoration: line-through; }
-.product-card .prod-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
-.product-card .prod-tag { padding: 3px 9px; border-radius: 99px; font-size: 10px; font-weight: 500; background: #fef5eb; color: var(--accent); border: 1px solid rgba(212,145,62,0.15); }
-.product-card .prod-match { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
-.product-card .match-bar-sm { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-.product-card .match-fill-sm { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
-.product-card .match-pct { font-size: 10px; font-weight: 700; color: var(--accent); }
-.product-card .prod-reason { font-size: 11px; color: var(--dim); line-height: 1.5; margin-top: auto; padding-top: 8px; border-top: 1px solid var(--border); }
-.product-card .prod-reason::before { content: '💡 '; }
-
-/* ═══════ CHAT MODE ═══════ */
-.chat-layout { display: grid; grid-template-columns: 1fr 420px; gap: 20px; }
-@media (max-width: 900px) {
-  .chat-layout { grid-template-columns: 1fr; }
-  .rec-panel { max-height: none; }
-}
-@media (max-width: 768px) {
-  .app { padding: 10px; }
-  .topbar { flex-wrap: wrap; gap: 6px; justify-content: center; border-radius: 20px; padding: 10px 14px; }
-  .topbar-logo { font-size: 13px; }
-  .topbar a { font-size: 10px; padding: 4px 10px; }
-  .section-title { font-size: 15px; }
-  .mode-tabs { width: 100%; justify-content: center; }
-  .mode-tab { padding: 7px 14px; font-size: 11px; }
-  .product-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
-  .product-card { padding: 14px; }
-  .product-card .prod-emoji { font-size: 36px; }
-  .product-card .prod-name { font-size: 13px; }
-  .product-card .prod-price { font-size: 18px; }
-  .catalog-filters { flex-direction: column; align-items: stretch; }
-  .catalog-filters input { width: 100% !important; }
-  .chat-panel { height: 450px; }
-  .chat-bubble { max-width: 92%; font-size: 13px; }
-  .chips { gap: 4px; }
-  .chip { padding: 5px 10px; font-size: 11px; }
-  .chat-input-row input { font-size: 13px; padding: 10px 12px; }
-  .chat-input-row button { padding: 8px 16px; font-size: 13px; }
-  .profile-bar { flex-direction: column; align-items: stretch; }
-  .rec-card { padding: 14px 16px; }
-  .rec-card-name { font-size: 13px; }
-  .rec-card-price { font-size: 15px; }
-}
+.layout { display: grid; grid-template-columns: 1fr 420px; gap: 20px; margin: 16px 0; }
 .chat-panel { display: flex; flex-direction: column; height: 600px; }
 .chat-messages { flex: 1; overflow-y: auto; padding: 16px; background: var(--card2); border-radius: var(--radius); margin-bottom: 12px; display: flex; flex-direction: column; gap: 12px; }
 .chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 14px; font-size: 14px; line-height: 1.65; animation: fadeIn 0.3s ease; }
@@ -144,9 +83,28 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .rec-breakdown .strategy-fill { height: 100%; border-radius: 2px; }
 
 .profile-bar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--card); border-radius: var(--radius-sm); box-shadow: var(--shadow); margin-bottom: 14px; flex-wrap: wrap; }
-.profile-bar select, .profile-bar input { padding: 6px 12px; border-radius: 99px; border: 1px solid var(--border); font-size: 12px; font-family: var(--font); background: var(--card2); cursor: pointer; }
+.profile-bar select { padding: 6px 12px; border-radius: 99px; border: 1px solid var(--border); font-size: 12px; font-family: var(--font); background: var(--card2); cursor: pointer; }
 .empty-state { text-align: center; padding: 40px 20px; color: var(--dim); }
 .empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.6; }
+
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .rec-panel { max-height: none; } }
+@media (max-width: 768px) {
+  .app { padding: 10px; }
+  .topbar { flex-wrap: wrap; gap: 6px; justify-content: center; border-radius: 20px; padding: 10px 14px; }
+  .topbar-logo { font-size: 13px; }
+  .topbar a { font-size: 10px; padding: 4px 10px; }
+  .section-title { font-size: 15px; }
+  .chat-panel { height: 450px; }
+  .chat-bubble { max-width: 92%; font-size: 13px; }
+  .chips { gap: 4px; }
+  .chip { padding: 5px 10px; font-size: 11px; }
+  .chat-input-row input { font-size: 13px; padding: 10px 12px; }
+  .chat-input-row button { padding: 8px 16px; font-size: 13px; }
+  .profile-bar { flex-direction: column; align-items: stretch; }
+  .rec-card { padding: 14px 16px; }
+  .rec-card-name { font-size: 13px; }
+  .rec-card-price { font-size: 15px; }
+}
 </style>
 </head>
 <body>
@@ -155,125 +113,46 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 <div class="app">
 <nav class="topbar"><span class="topbar-logo">蔡子贤 · AI导购助手</span><div><a href="#" id="backToResume" style="text-decoration:none;font-size:12px;color:var(--dim);padding:6px 14px;border-radius:99px;border:1px solid var(--border);transition:var(--transition);margin-right:8px">← 返回简历</a><a href="#" id="adminLink" style="text-decoration:none;font-size:12px;color:var(--dim);padding:6px 14px;border-radius:99px;border:1px solid var(--border);transition:var(--transition)">⚙️ 管理后台</a></div></nav>
 
-<div class="section-head"><div class="section-icon work">🧭</div><h2 class="section-title">AI导购助手 · 智能商品推荐系统</h2></div>
+<div class="section-head"><div class="section-icon">🧭</div><h2 class="section-title">AI导购助手 · 智能商品推荐系统</h2></div>
 
-<!-- ═══════ MODE SWITCH ═══════ -->
-<div class="mode-tabs">
-  <button class="mode-tab active" data-mode="catalog" onclick="switchMode('catalog')">🛍️ 浏览商品</button>
-  <button class="mode-tab" data-mode="chat" onclick="switchMode('chat')">💬 AI对话导购</button>
+<div class="profile-bar">
+  <span style="font-size:13px;font-weight:600;color:var(--text)">模拟用户:</span>
+  <select id="profileSelect" onchange="switchProfile()"><option value="">不指定（对话中理解偏好）</option></select>
+  <span style="font-size:11px;color:var(--dim)">切换不同用户画像查看推荐差异</span>
 </div>
 
-<!-- ════════════ CATALOG MODE ════════════ -->
-<div id="catalogMode">
-  <div class="catalog-filters">
-    <select id="catFilter" onchange="renderCatalog()"><option value="">全部分类</option></select>
-    <input id="catSearch" placeholder="搜索商品..." oninput="renderCatalog()" style="width:200px">
-    <span style="font-size:11px;color:var(--dim)" id="catCount"></span>
-  </div>
-  <div class="product-grid" id="productGrid"></div>
-</div>
-
-<!-- ════════════ CHAT MODE ════════════ -->
-<div id="chatMode" style="display:none">
-  <div class="profile-bar">
-    <span style="font-size:13px;font-weight:600;color:var(--text)">模拟用户:</span>
-    <select id="profileSelect" onchange="switchProfile()"><option value="">不指定（对话中理解偏好）</option></select>
-    <span style="font-size:11px;color:var(--dim)">切换不同用户画像查看推荐差异</span>
-  </div>
-  <div class="chat-layout">
-    <div class="chat-panel">
-      <div class="chips">
-        <button class="chip" onclick="quickAsk('我是新手，想找便宜点的入门课程')">新手入门</button>
-        <button class="chip" onclick="quickAsk('我想增肌，推荐蛋白粉和装备')">增肌补给</button>
-        <button class="chip" onclick="quickAsk('想减肥，推荐适合在家用的装备')">减脂装备</button>
-        <button class="chip" onclick="quickAsk('给我推荐瑜伽相关的课程和产品')">瑜伽推荐</button>
-        <button class="chip" onclick="quickAsk('有没有恢复按摩类的产品？')">运动恢复</button>
-      </div>
-      <div class="chat-messages" id="chatMessages">
-        <div class="chat-bubble ai">👋 你好！我是<b>乐刻AI导购助手小乐</b>。<br>无论你是健身新手想找入门课程，还是资深玩家需要专业装备——告诉我你的需求，我来帮你精准匹配最合适的产品。<br><br><span style="font-size:12px;color:var(--dim)">💡 试试点击下面的快捷提问，或直接告诉我你的健身目标和预算～</span></div>
-      </div>
-      <div class="chat-input-row">
-        <input type="text" id="chatInput" placeholder="描述你的健身需求和预算..." onkeydown="if(event.key==='Enter')sendMsg()">
-        <button onclick="sendMsg()" id="sendBtn">发送</button>
-      </div>
+<div class="layout">
+  <div class="chat-panel">
+    <div class="chips">
+      <button class="chip" onclick="quickAsk('我是新手，想找便宜点的入门课程')">新手入门</button>
+      <button class="chip" onclick="quickAsk('我想增肌，推荐蛋白粉和装备')">增肌补给</button>
+      <button class="chip" onclick="quickAsk('想减肥，推荐适合在家用的装备')">减脂装备</button>
+      <button class="chip" onclick="quickAsk('给我推荐瑜伽相关的课程和产品')">瑜伽推荐</button>
+      <button class="chip" onclick="quickAsk('有没有恢复按摩类的产品？')">运动恢复</button>
     </div>
-    <div class="rec-panel" id="recPanel">
-      <div class="empty-state"><div class="icon">🧭</div><div>告诉我你的需求<br>我会实时推荐最匹配的产品</div><div style="font-size:11px;margin-top:6px;color:var(--dim)">推荐策略: RFM画像 + 协同过滤 + LLM语义</div></div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-bubble ai">👋 你好！我是<b>乐刻AI导购助手小乐</b>。<br>无论你是健身新手想找入门课程，还是资深玩家需要专业装备——告诉我你的需求，我来帮你精准匹配最合适的产品。<br><br><span style="font-size:12px;color:var(--dim)">💡 试试点击下面的快捷提问，或直接告诉我你的健身目标和预算～</span></div>
     </div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" placeholder="描述你的健身需求和预算..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <button onclick="sendMsg()" id="sendBtn">发送</button>
+    </div>
+  </div>
+  <div class="rec-panel" id="recPanel">
+    <div class="empty-state"><div class="icon">🧭</div><div>告诉我你的需求<br>我会实时推荐最匹配的产品</div><div style="font-size:11px;margin-top:6px;color:var(--dim)">推荐策略: RFM画像 + 协同过滤 + LLM语义</div></div>
   </div>
 </div>
 </div>
 
 <script>
-// ═══════════ CONFIG ═══════════
 var API_BASE = '';
-
 document.getElementById('backToResume').href = '/';
 document.getElementById('adminLink').href = API_BASE + '/admin';
 
-var allProducts = [];
-
-// ═══════════ MODE SWITCHING ═══════════
-function switchMode(mode) {
-  document.querySelectorAll('.mode-tab').forEach(function(t) {
-    t.classList.toggle('active', t.dataset.mode === mode);
-  });
-  document.getElementById('catalogMode').style.display = mode === 'catalog' ? 'block' : 'none';
-  document.getElementById('chatMode').style.display = mode === 'chat' ? 'block' : 'none';
-}
-
-// ═══════════ CATALOG MODE ═══════════
-async function loadCatalog() {
-  try {
-    var r = await fetch(API_BASE + '/api/admin/products');
-    var data = await r.json();
-    allProducts = data.products || [];
-    var cats = [...new Set(allProducts.map(function(p){return p.category}).filter(Boolean))];
-    var sel = document.getElementById('catFilter');
-    sel.innerHTML = '<option value="">全部分类</option>';
-    cats.forEach(function(c) {
-      sel.innerHTML += '<option value="' + c + '">' + c + '</option>';
-    });
-    renderCatalog();
-  } catch(e) { console.error(e); }
-}
-
-function renderCatalog() {
-  var cat = document.getElementById('catFilter').value;
-  var search = document.getElementById('catSearch').value.toLowerCase();
-  var filtered = allProducts.filter(function(p) {
-    if (cat && p.category !== cat) return false;
-    if (search && !(p.name+''+p.tags+''+p.category).toLowerCase().includes(search)) return false;
-    return true;
-  });
-  document.getElementById('catCount').textContent = '共 ' + filtered.length + ' 件商品';
-
-  var grid = document.getElementById('productGrid');
-  if (filtered.length === 0) {
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="icon">🛍️</div><div>暂无商品</div></div>';
-    return;
-  }
-  grid.innerHTML = filtered.map(function(p, i) {
-    var tags = (p.tags||'').split(',').filter(Boolean);
-    var discount = p.original_price > p.price ? '<span class="prod-original">¥' + p.original_price + '</span>' : '';
-    var score = (p.match_score || 0.8) * 100;
-    return '<div class="product-card" style="animation-delay:' + (i*0.04) + 's">' +
-      '<div class="prod-emoji">' + (p.emoji||'📦') + '</div>' +
-      '<div class="prod-name">' + esc(p.name) + '</div>' +
-      '<div class="prod-cat">' + esc(p.category||'综合') + '</div>' +
-      '<div class="prod-price-row"><span class="prod-price">¥' + p.price + '</span>' + discount + '</div>' +
-      '<div class="prod-tags">' + tags.map(function(t){return '<span class="prod-tag">' + t.trim() + '</span>';}).join('') + '</div>' +
-      '<div class="prod-match"><span class="match-bar-sm"><span class="match-fill-sm" style="width:' + score + '%"></span></span><span class="match-pct">' + score.toFixed(0) + '%</span></div>' +
-      '<div class="prod-reason">' + esc(p.reason||'') + '</div>' +
-    '</div>';
-  }).join('');
-}
-
-function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-// ═══════════ CHAT MODE ═══════════
 var sessionId = localStorage.getItem('sg_session') || '';
 var isStreaming = false;
+
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 async function loadProfiles() {
   try {
@@ -303,8 +182,7 @@ function addMsg(role, text) {
   div.className = 'chat-bubble ' + role;
   div.innerHTML = text;
   document.getElementById('chatMessages').appendChild(div);
-  var mc = document.getElementById('chatMessages');
-  mc.scrollTop = mc.scrollHeight;
+  document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
   return div;
 }
 
@@ -348,8 +226,7 @@ async function sendMsg() {
           if (eventType === 'token' && data.text) {
             fullText += data.text;
             aiDiv.innerHTML = formatMarkdown(fullText);
-            var mc = document.getElementById('chatMessages');
-            mc.scrollTop = mc.scrollHeight;
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
           } else if (eventType === 'recommendations' && data.items) {
             renderRecommendations(data.items);
           } else if (eventType === 'pipeline' && data.preferences) {
@@ -373,7 +250,7 @@ function renderRecommendations(items) {
   var panel = document.getElementById('recPanel');
   panel.innerHTML = '';
   if (!items || items.length === 0) {
-    panel.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><div>暂无匹配商品</div></div>';
+    panel.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><div>暂无匹配商品<br><span style="font-size:11px;color:var(--dim)">试试换个问法～</span></div></div>';
     return;
   }
   items.forEach(function(item, i) {
@@ -411,8 +288,6 @@ function updateBreakdown(data) {
 function quickAsk(text) { document.getElementById('chatInput').value = text; sendMsg(); }
 function formatMarkdown(text) { return text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>'); }
 
-// ═══════════ INIT ═══════════
-loadCatalog();
 loadProfiles();
 </script>
 </body>

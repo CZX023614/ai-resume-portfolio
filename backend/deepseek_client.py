@@ -17,7 +17,9 @@ def get_deepseek_config():
 async def chat_stream(messages: list, system_prompt: str = "", temperature: float = 0.7):
     config = get_deepseek_config()
     if not config['api_key']:
-        yield "data: " + json.dumps({"error": "请先在管理后台配置DeepSeek API Key"}, ensure_ascii=False) + "\n\n"
+        # No API key: return a polite fallback instead of an error
+        fallback_msg = "您好！当前AI服务尚未配置 API Key。\n\n请在管理后台「🔑 DeepSeek API」页面填入您的 API Key 后，我将能为您提供智能回复。\n\n如果您只是演示用途，可以前往 https://platform.deepseek.com 免费获取 API Key（新用户赠送500万tokens）。"
+        yield f"event: token\ndata: {json.dumps({'text': fallback_msg})}\n\n"
         yield "event: done\ndata: " + json.dumps({"session_id": ""}) + "\n\n"
         return
 

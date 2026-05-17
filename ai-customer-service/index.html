@@ -210,7 +210,9 @@ async function sendMsg() {
           } else if (eventType === 'done') {
             sessionId = data.session_id;
             localStorage.setItem('cs_session', sessionId);
-            if (!fullText) aiDiv.innerHTML = '抱歉，回复出错，请重试。';
+            if (!fullText) {
+              aiDiv.innerHTML = '抱歉，我暂时无法回答这个问题 😊<br><br>建议您联系人工客服获取帮助：<br>📞 客服热线：400-xxx-xxxx<br>📱 APP内「我的-帮助中心」在线客服<br><br><span style="font-size:11px;color:var(--dim)">（知识库中暂无匹配答案，已自动转人工建议）</span>';
+            }
           }
         } catch(e) {}
       }
@@ -228,11 +230,20 @@ function updatePipeline(data) {
   if (placeholder) placeholder.remove();
   var intent = data.intent || '未知', sub = data.sub_intent || '', entities = data.entities || [], sentiment = data.sentiment || 'neutral';
   var sentMap = {positive:'😊 正面', neutral:'😐 中性', negative:'😞 负面', urgent:'🚨 紧急'};
-  var conf = data.confidence || {}, rags = data.rag_sources || [];
+  var conf = data.confidence || {}, rags = data.rag_sources || [], fallback = data.fallback || false;
 
   var html = '<div class="pipeline-card active"><h4><span class="dot"></span>意图识别</h4><div><span class="intent-badge intent-main">' + intent + '</span>' + (sub ? '<span class="intent-badge intent-sub">' + sub + '</span>' : '') + '</div><div style="margin-top:8px">' + (entities.map(function(e){ return '<span class="entity-tag">' + e + '</span>'; }).join('') || '<span style="font-size:12px;color:var(--dim)">无实体</span>') + '</div><div style="font-size:11px;color:var(--dim);margin-top:8px">情感倾向: ' + (sentMap[sentiment] || sentiment) + '</div></div>';
-  html += '<div class="pipeline-card"><h4>📚 RAG知识库检索</h4>' + rags.map(function(r){ return '<div class="rag-item"><div class="cat">' + r.category + ' · 匹配度 ' + (r.score*100).toFixed(0) + '%</div><div class="q">' + r.question + '</div></div>'; }).join('') + '<div style="font-size:10px;color:var(--dim);margin-top:8px">Top ' + rags.length + ' 匹配结果，基于TF-IDF关键词检索</div></div>';
-  html += '<div class="pipeline-card" id="confidenceCard"><h4>📊 置信度评分</h4><div class="conf-meter"><div class="conf-bar"><div class="conf-fill" id="confFill" style="width:' + ((conf.score||0)*100) + '%;background:' + confColor(conf.score||0) + '"></div></div><div class="conf-text"><span>置信度</span><span style="font-weight:700;color:' + confColor(conf.score||0) + '">' + ((conf.score||0)*100).toFixed(0) + '%</span></div></div><div class="handoff-alert ' + (conf.auto_handoff ? 'handoff-warn' : 'handoff-safe') + '">' + (conf.auto_handoff ? '⚠️ 置信度不足，建议转人工客服' : '✅ 置信度充足，AI可独立处理') + '</div></div>';
+  html += '<div class="pipeline-card"><h4>📚 RAG知识库检索</h4>' + (rags.length > 0 ? rags.map(function(r){ return '<div class="rag-item"><div class="cat">' + r.category + ' · 匹配度 ' + (r.score*100).toFixed(0) + '%</div><div class="q">' + r.question + '</div></div>'; }).join('') : '<div style="font-size:12px;color:var(--dim);padding:8px 0">⚠️ 未找到匹配知识条目</div>') + '<div style="font-size:10px;color:var(--dim);margin-top:8px">Top ' + rags.length + ' 匹配结果，基于TF-IDF关键词检索</div></div>';
+
+  var statusHtml = '';
+  if (fallback) {
+    statusHtml = '<div class="handoff-alert handoff-warn" style="font-size:12px;padding:10px 14px">🔄 <b>兜底模式已激活</b> — 知识库无匹配结果，将引导用户联系人工客服</div>';
+  } else if (conf.auto_handoff) {
+    statusHtml = '<div class="handoff-alert handoff-warn">⚠️ 置信度不足，建议转人工客服</div>';
+  } else {
+    statusHtml = '<div class="handoff-alert handoff-safe">✅ 置信度充足，AI可独立处理</div>';
+  }
+  html += '<div class="pipeline-card" id="confidenceCard"><h4>📊 置信度评分</h4><div class="conf-meter"><div class="conf-bar"><div class="conf-fill" id="confFill" style="width:' + ((conf.score||0)*100) + '%;background:' + confColor(conf.score||0) + '"></div></div><div class="conf-text"><span>置信度</span><span style="font-weight:700;color:' + confColor(conf.score||0) + '">' + ((conf.score||0)*100).toFixed(0) + '%</span></div></div>' + statusHtml + '</div>';
   panel.innerHTML = html;
 }
 
