@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蔡子贤 · AI产品经理</title>
+<style>
+/* ══════════════════════════════════════════════════════════
+   PREMIUM SUNSHINE — Warm · Airy · Elegant · Portfolio-First
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --bg: #faf8f5; --card: #ffffff; --card2: #fefbf7; --border: #e8e2d8;
+  --text: #2c2416; --dim: #8a7e6b; --accent: #d4913e; --accent2: #e8784a;
+  --gold: #c8872b; --warm: #f0a050; --teal: #2d9d8c; --rose: #d4687c;
+  --shadow: 0 2px 16px rgba(60,40,20,0.06);
+  --shadow-lg: 0 8px 40px rgba(60,40,20,0.10);
+  --radius: 16px; --radius-sm: 10px;
+  --font: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  --mono: 'SF Mono', 'JetBrains Mono', 'Consolas', monospace;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.6;overflow-x:hidden}
+
+.bg-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(120px);opacity:0.5}
+.bg-orb-1{width:500px;height:500px;background:#fce4c8;top:-150px;right:-100px;animation:float1 12s ease-in-out infinite}
+.bg-orb-2{width:400px;height:400px;background:#f5e0d0;bottom:-100px;left:-80px;animation:float2 10s ease-in-out infinite}
+.bg-orb-3{width:300px;height:300px;background:#e8e0d5;top:50%;left:50%;animation:float3 14s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,30px)}}
+@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-25px)}}
+@keyframes float3{0%,100%{transform:translate(0,0)}50%{transform:translate(-20px,-20px)}}
+
+.app{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:32px 28px 60px}
+
+/* ════════════ TOPBAR ════════════ */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:rgba(255,255,255,0.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:99px;border:1px solid var(--border);margin-bottom:28px;position:sticky;top:16px;z-index:100;box-shadow:var(--shadow)}
+.topbar-logo{font-weight:800;font-size:15px;color:var(--accent);letter-spacing:-0.5px}
+.topbar-nav{display:flex;gap:2px;flex-wrap:wrap}
+.topbar-nav a{padding:7px 16px;border-radius:99px;border:none;cursor:pointer;background:transparent;color:var(--dim);font-size:13px;font-weight:500;text-decoration:none;transition:var(--transition);font-family:var(--font)}
+.topbar-nav a:hover{background:#fef5eb;color:var(--accent)}
+
+/* ════════════ HERO ════════════ */
+.hero{display:flex;align-items:center;gap:32px;padding:32px 36px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-60px;right:-40px;width:200px;height:200px;border-radius:50%;background:linear-gradient(135deg,#fef0e0,#fce4c8);opacity:0.6;z-index:0}
+.hero-main{flex:1;position:relative;z-index:1}
+.hero-greeting{font-size:11px;font-weight:600;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:6px}
+.hero-name{font-size:44px;font-weight:800;letter-spacing:-2px;background:linear-gradient(135deg,#3d2b0a 0%,#b8752e 50%,#d4913e 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.15}
+.hero-title{font-size:16px;color:var(--dim);margin-top:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hero-title .dot-sep{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.hero-contact-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.hero-chip{padding:6px 14px;border-radius:99px;font-size:11px;background:var(--card2);border:1px solid var(--border);color:var(--dim);font-family:var(--mono);display:flex;align-items:center;gap:5px}
+.hero-photo{flex-shrink:0;width:110px;height:140px;border-radius:14px;overflow:hidden;border:3px solid var(--border);box-shadow:var(--shadow);position:relative;z-index:1;background:var(--card2)}
+.hero-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-stats{display:flex;gap:12px;position:relative;z-index:1}
+.hero-stat{text-align:center;padding:14px 18px;background:var(--card2);border-radius:var(--radius-sm);min-width:72px}
+.hero-stat-num{font-size:28px;font-weight:800;color:var(--accent);font-family:var(--mono);line-height:1.1}
+.hero-stat-label{font-size:10px;color:var(--dim);margin-top:2px;font-weight:500}
+
+/* ════════════ SECTION HEADERS ════════════ */
+.section{margin-bottom:28px}
+.section-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.section-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.section-icon.works{background:#fef5eb;color:var(--accent)}
+.section-icon.skills{background:#fef0e6;color:var(--accent2)}
+.section-title{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-0.5px}
+
+/* ════════════ OVERVIEW ════════════ */
+.overview{font-size:13.5px;color:var(--dim);line-height:1.85;padding:16px 22px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border-left:3px solid var(--accent);margin-bottom:28px}
+.overview b{color:var(--accent);font-weight:600}
+
+/* ════════════ PORTFOLIO (MAIN) ════════════ */
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.work-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:var(--transition);border:1px solid transparent;display:flex;flex-direction:column}
+.work-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
+.work-card-banner{height:6px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .35s ease}
+.work-card:hover .work-card-banner{opacity:1}
+.work-card-body{padding:24px 26px;flex:1;display:flex;flex-direction:column}
+.work-card-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.work-card-icon{font-size:32px;flex-shrink:0;line-height:1}
+.work-card-header{flex:1}
+.work-card-title{font-size:17px;font-weight:700;color:var(--text);margin-bottom:3px}
+.work-card-sub{font-size:11px;color:var(--dim);font-family:var(--mono)}
+.work-card-desc{font-size:13px;color:var(--dim);line-height:1.75;margin-bottom:14px;flex:1}
+.work-card-metrics{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.work-card-metric{padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;background:rgba(45,157,140,0.06);color:var(--teal);border:1px solid rgba(45,157,140,0.15)}
+.work-card-actions{display:flex;align-items:center;gap:10px;margin-top:auto}
+.work-card-cta{font-size:12px;font-weight:600;color:var(--accent);opacity:0;transform:translateX(-6px);transition:var(--transition)}
+.work-card:hover .work-card-cta{opacity:1;transform:translateX(0)}
+.work-card-demo{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:99px;font-size:11px;font-weight:600;color:var(--teal);text-decoration:none;background:rgba(45,157,140,0.06);border:1px solid rgba(45,157,140,0.2);transition:var(--transition);margin-left:auto}
+.work-card-demo:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+/* ════════════ SKILLS COMPACT ════════════ */
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.skill-card{background:var(--card);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);transition:var(--transition);border:1px solid transparent}
+.skill-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.skill-card-title{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+.skill-tags{display:flex;flex-wrap:wrap;gap:5px}
+.skill-tag{padding:4px 10px;border-radius:99px;font-size:11px;background:var(--card2);border:1px solid var(--border);color:var(--text);cursor:default;transition:var(--transition)}
+.skill-tag:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ════════════ ABOUT + EDU ════════════ */
+.about-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.about-card{background:var(--card);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow);transition:var(--transition);cursor:default;border:1px solid transparent}
+.about-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
+.about-card-icon{font-size:24px;margin-bottom:6px}
+.about-card-title{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--accent);margin-bottom:6px}
+.about-card-text{font-size:12.5px;color:var(--dim);line-height:1.7}
+
+/* ════════════ MODALS ════════════ */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(30,20,10,0.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal{background:var(--card);border-radius:var(--radius);width:min(780px,92vw);max-height:85vh;overflow-y:auto;box-shadow:0 20px 80px rgba(40,20,0,0.2);transform:translateY(30px) scale(0.96);transition:transform .4s cubic-bezier(0.4,0,0.2,1)}
+.modal-overlay.open .modal{transform:translateY(0) scale(1)}
+.modal::-webkit-scrollbar{width:4px}
+.modal::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.modal-header{padding:22px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:10;border-radius:var(--radius) var(--radius) 0 0}
+.modal-header h3{font-size:18px;font-weight:700;color:var(--text)}
+.modal-close{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--card);cursor:pointer;font-size:18px;line-height:36px;text-align:center;color:var(--dim);transition:var(--transition)}
+.modal-close:hover{background:#fef0e6;color:var(--accent2);border-color:var(--accent2)}
+.modal-body{padding:24px 28px 28px}
+.modal-bg{font-size:13px;color:var(--dim);line-height:1.85;padding:14px 18px;background:var(--card2);border-radius:var(--radius-sm);margin-bottom:16px}
+.modal-bg b{color:var(--accent);font-weight:600}
+.modal-label{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin:14px 0 8px}
+.modal-bullet{font-size:13px;color:var(--text);line-height:1.85;padding:3px 0 3px 16px;position:relative}
+.modal-bullet::before{content:'';position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.modal-bullet b{color:var(--accent);font-weight:600}
+.modal-result{font-size:13px;line-height:1.85;padding:8px 14px;margin:3px 0;border-left:3px solid var(--teal);background:rgba(45,157,140,0.04);border-radius:0 8px 8px 0}
+.modal-result b{font-weight:600;color:var(--teal)}
+.modal-demo-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:99px;font-size:13px;font-weight:600;color:var(--teal);text-decoration:none;background:rgba(45,157,140,0.06);border:1px solid rgba(45,157,140,0.3);transition:var(--transition);margin-top:18px}
+.modal-demo-btn:hover{background:var(--teal);color:#fff;border-color:var(--teal);transform:translateY(-2px);box-shadow:0 4px 16px rgba(45,157,140,0.25)}
+
+/* ════════════ FOOTER ════════════ */
+.footer{text-align:center;padding:32px 0 8px;font-size:12px;color:var(--dim)}
+.footer span{color:var(--accent);font-weight:600}
+
+@media(max-width:768px){
+  .hero{flex-direction:column;align-items:flex-start;padding:24px 20px}
+  .hero-name{font-size:34px}
+  .hero-photo{width:80px;height:100px;border-radius:10px}
+  .hero-stats{flex-wrap:wrap}
+  .portfolio-grid{grid-template-columns:1fr}
+  .skills-grid{grid-template-columns:repeat(2,1fr)}
+  .about-row{grid-template-columns:1fr}
+  .topbar{flex-wrap:wrap;gap:6px;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+<div class="bg-orb bg-orb-3"></div>
+
+<div class="app">
+
+<!-- ════════════════ TOP BAR ════════════════ -->
+<nav class="topbar">
+  <span class="topbar-logo">蔡子贤</span>
+  <div class="topbar-nav">
+    <a href="#hero">首页</a>
+    <a href="#works">作品</a>
+    <a href="#skills">能力</a>
+    <a href="#about">关于</a>
+    <a href="#" id="adminEntry" style="color:var(--teal)">AI后台</a>
+  </div>
+</nav>
+
+<!-- ════════════════ HERO ════════════════ -->
+<div class="hero" id="hero">
+  <div class="hero-main">
+    <div class="hero-greeting">AI Product Manager / Designer</div>
+    <h1 class="hero-name">蔡子贤</h1>
+    <div class="hero-title">
+      AI产品经理<span class="dot-sep"></span>UI/UX Designer<span class="dot-sep"></span>LLM应用层
+    </div>
+    <div class="hero-contact-row">
+      <span class="hero-chip">📞 19907159990</span>
+      <span class="hero-chip">📧 19907159990@163.com</span>
+      <span class="hero-chip">📍 武汉</span>
+      <span class="hero-chip">🎂 1999 / 06</span>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">5<small style="font-size:16px">年</small></div><div class="hero-stat-label">产品经验</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">3<small style="font-size:16px">年</small></div><div class="hero-stat-label">AI产品方向</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">从0到1产品</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">50+</div><div class="hero-stat-label">迭代版本</div></div>
+  </div>
+  <div class="hero-photo">
+    <img src="photo.jpg" alt="蔡子贤">
+  </div>
+</div>
+
+<!-- ════════════════ OVERVIEW ════════════════ -->
+<div class="overview">
+  5年产品经验，3年AI产品方向。视觉传达设计本科，兼具<b>用户体验设计</b>与<b>数据驱动决策</b>能力。先后从0到1主导SCRM、AI智能客服、AI导购助手等核心产品，擅长<b>LLM + RAG + Agent</b>技术栈的产品化落地。独立负责<b>需求分析 → 产品设计 → 研发跟进 → 数据监控 → 迭代闭环</b>全流程。
+</div>
+
+<!-- ════════════════ WORKS ════════════════ -->
+<div class="section" id="works">
+  <div class="section-head">
+    <div class="section-icon works">📋</div>
+    <h2 class="section-title">作品展示</h2>
+  </div>
+
+  <div class="portfolio-grid">
+
+    <!-- 作品1: AI智能客服 -->
+    <div class="work-card" onclick="openModal('modal-service')">
+      <div class="work-card-banner"></div>
+      <div class="work-card-body">
+        <div class="work-card-top">
+          <div class="work-card-icon">🤖</div>
+          <div class="work-card-header">
+            <div class="work-card-title">AI智能客服系统</div>
+            <div class="work-card-sub">2023.02 - 2023.12 · 从0到1 · 产品负责人</div>
+          </div>
+        </div>
+        <div class="work-card-desc">
+          LLM+RAG+多轮对话方案，ChatGLM私有化部署+DeepSeek-R1增强推理。5000+条目知识库，置信度&lt;75%自动转人工。
+        </div>
+        <div class="work-card-metrics">
+          <span class="work-card-metric">自主解决率 30%→90%</span>
+          <span class="work-card-metric">响应 7min→12s</span>
+          <span class="work-card-metric">人效 +87%</span>
+        </div>
+        <div class="work-card-actions">
+          <span class="work-card-cta">查看详情 →</span>
+          <a class="work-card-demo" href="#" target="_blank" onclick="event.stopPropagation()" id="demoLink-service">🖥️ 在线演示</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 作品2: AI导购助手 -->
+    <div class="work-card" onclick="openModal('modal-guide')">
+      <div class="work-card-banner"></div>
+      <div class="work-card-body">
+        <div class="work-card-top">
+          <div class="work-card-icon">🧭</div>
+          <div class="work-card-header">
+            <div class="work-card-title">AI导购助手（含商品推荐）</div>
+            <div class="work-card-sub">2024.06 - 2025.03 · 从0到1 · 产品负责人</div>
+          </div>
+        </div>
+        <div class="work-card-desc">
+          RFM画像+协同过滤+LLM语义混合推荐策略。信息流+对话式双导购模式，30+页面Figma高保真原型。
+        </div>
+        <div class="work-card-metrics">
+          <span class="work-card-metric">CVR 4.7%→11.6%</span>
+          <span class="work-card-metric">客单价 +118%</span>
+          <span class="work-card-metric">MAU渗透 9.29%</span>
+        </div>
+        <div class="work-card-actions">
+          <span class="work-card-cta">查看详情 →</span>
+          <a class="work-card-demo" href="#" target="_blank" onclick="event.stopPropagation()" id="demoLink-guide">🖥️ 在线演示</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 作品3: SCRM -->
+    <div class="work-card" onclick="openModal('modal-scrm')">
+      <div class="work-card-banner"></div>
+      <div class="work-card-body">
+        <div class="work-card-top">
+          <div class="work-card-icon">👥</div>
+          <div class="work-card-header">
+            <div class="work-card-title">SCRM企业客户管理系统</div>
+            <div class="work-card-sub">2022.03 - 2023.01 · 从0到1 · 产品负责人</div>
+          </div>
+        </div>
+        <div class="work-card-desc">
+          转型PM首个0→1产品。RFM分层标签+5步SOP引擎+企微侧边栏。6大核心模块，35+页面Figma高保真原型。
+        </div>
+        <div class="work-card-metrics">
+          <span class="work-card-metric">留存 +15pp</span>
+          <span class="work-card-metric">人效 4倍</span>
+          <span class="work-card-metric">信息完整度 30%→85%</span>
+        </div>
+        <div class="work-card-actions">
+          <span class="work-card-cta">查看详情 →</span>
+          <a class="work-card-demo" href="#" target="_blank" onclick="event.stopPropagation()" id="demoLink-scrm">🖥️ 在线演示</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════ SKILLS ════════════════ -->
+<div class="section" id="skills">
+  <div class="section-head">
+    <div class="section-icon skills">⚡</div>
+    <h2 class="section-title">核心能力</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-title">AI / 大模型</div>
+      <div class="skill-tags">
+        <span class="skill-tag">LLM应用层</span><span class="skill-tag">RAG Pipeline</span><span class="skill-tag">Agent</span><span class="skill-tag">Prompt Engineering</span><span class="skill-tag">Function Calling</span><span class="skill-tag">MCP</span><span class="skill-tag">Badcase驱动优化</span><span class="skill-tag">模型评测</span><span class="skill-tag">向量检索 & ReRank</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">产品设计</div>
+      <div class="skill-tags">
+        <span class="skill-tag">需求分析</span><span class="skill-tag">PRD撰写</span><span class="skill-tag">用户调研</span><span class="skill-tag">竞品分析</span><span class="skill-tag">AB实验</span><span class="skill-tag">MVP验证</span><span class="skill-tag">RFM模型</span><span class="skill-tag">用户生命周期</span><span class="skill-tag">数据驱动决策</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">工具</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Figma（精通）</span><span class="skill-tag">Axure RP</span><span class="skill-tag">Sketch</span><span class="skill-tag">墨刀 / MasterGo</span><span class="skill-tag">ProcessOn</span><span class="skill-tag">Xmind</span><span class="skill-tag">Notion / 语雀</span><span class="skill-tag">Jira / Linear</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">UI / 视觉设计</div>
+      <div class="skill-tags">
+        <span class="skill-tag">UI/UX设计</span><span class="skill-tag">交互原型</span><span class="skill-tag">品牌视觉</span><span class="skill-tag">动效（AE）</span><span class="skill-tag">Photoshop</span><span class="skill-tag">Illustrator</span><span class="skill-tag">设计系统</span><span class="skill-tag">C4D/Blender</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ ABOUT + EDU ════════════════ -->
+<div class="section" id="about">
+  <div class="section-head">
+    <div class="section-icon skills">✨</div>
+    <h2 class="section-title">关于我</h2>
+  </div>
+  <div class="about-row">
+    <div class="about-card">
+      <div class="about-card-icon">🎓</div>
+      <div class="about-card-title">教育背景</div>
+      <div class="about-card-text">
+        <b>武汉东湖学院</b><br>
+        视觉传达设计 · 本科<br>
+        <span style="color:var(--dim);font-family:var(--mono);font-size:11px">2017.09 - 2021.06</span>
+      </div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-icon">🎸</div>
+      <div class="about-card-title">乐队 · 主唱兼节奏吉他手</div>
+      <div class="about-card-text">丰富的舞台演出经验。音乐训练带来的节奏感与审美理解也融入产品设计理念。</div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-icon">🎨</div>
+      <div class="about-card-title">设计 × 产品</div>
+      <div class="about-card-text">视觉传达设计科班出身，设计思维渗透在每一个产品决策里——功能好用和好看从来不矛盾。</div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-icon">🧠</div>
+      <div class="about-card-title">INTJ · 自驱 · AI探索者</div>
+      <div class="about-card-text">跟踪LLM前沿（DeepSeek/Claude/GPT/Gemini），Dify/Coze快速验证产品想法。从运营设计自学转型AI产品经理。</div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">Designed & Built by <span>蔡子贤</span> · 2026</footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  MODALS  -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<!-- Modal: AI智能客服 -->
+<div class="modal-overlay" id="modal-service" onclick="closeModalBg(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>🤖 AI智能客服系统</h3>
+      <button class="modal-close" onclick="closeModal('modal-service')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:12px;color:var(--dim);font-family:var(--mono);margin-bottom:12px">2023.02 - 2023.12 · 乐刻 · 产品负责人 · 从0到1</div>
+      <div class="modal-bg"><b>项目背景：</b>乐刻平台日均咨询2,000+条（购卡/约课/退款/门店查询），人工客服仅8人，高峰期排队超15分钟，"响应慢"客诉占35%。希望引入AI客服降低人工成本、提升响应效率。</div>
+      <div class="modal-label">我的工作</div>
+      <div class="modal-bullet"><b>技术选型：</b>调研ChatGPT、DeepSeek等多款主流大模型，确定"ChatGLM-4-Air私有化部署+DeepSeek-R1增强推理"方案，兼顾成本与效果。设计"LLM+RAG+多轮对话+人工兜底"整体架构。</div>
+      <div class="modal-bullet"><b>知识库与Prompt：</b>梳理10万+条历史客服对话，构建5,000+条目结构化知识库。200+条多维度测试用例，5类Few-shot模板。每周Top 20 Badcase复盘驱动迭代，意图识别81%→93%。</div>
+      <div class="modal-bullet"><b>产品架构：</b>意图识别→实体抽取→RAG检索→答案生成→置信度评分Pipeline，支持多轮上下文记忆。置信度&lt;75%自动转人工并推送对话摘要。</div>
+      <div class="modal-bullet"><b>项目推进：</b>算法+后端+前端+测试+UI共7人，双周Scrum。MVP 3个月上线，累计20+次模型微调。</div>
+      <div class="modal-label">项目成果</div>
+      <div class="modal-result"><b>AI自主解决率：</b>30% → 90%，90%咨询无需人工介入。</div>
+      <div class="modal-result"><b>响应时间：</b>7分钟 → 12秒（-97%），从"等客服"变为"秒回"。</div>
+      <div class="modal-result"><b>客服人效：</b>单客服日处理80→150条，人效+87%，释放人力转VIP深度运营。</div>
+      <div class="modal-result"><b>满意度：</b>72→91分，"响应慢"客诉35%→8%（-27pp）。</div>
+      <a class="modal-demo-btn" href="#" target="_blank" id="demoBtn-service">🖥️ 查看在线演示 → <span style="font-size:10px;opacity:0.7">可交互的完整Demo</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: AI导购助手 -->
+<div class="modal-overlay" id="modal-guide" onclick="closeModalBg(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>🧭 AI导购助手（含商品推荐系统）</h3>
+      <button class="modal-close" onclick="closeModal('modal-guide')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:12px;color:var(--dim);font-family:var(--mono);margin-bottom:12px">2024.06 - 2025.03 · 乐刻 · 产品负责人 · 从0到1</div>
+      <div class="modal-bg"><b>项目背景：</b>乐刻平台SKU超5,000个（器材/服饰/补剂），用户决策困难，浏览→下单转化率仅4.7%，低于行业均值（约7%）。传统推荐存在"信息茧房"，引入AI个性化推荐与对话导购能力。</div>
+      <div class="modal-label">我的工作</div>
+      <div class="modal-bullet"><b>混合推荐策略：</b>"用户画像+协同过滤+LLM语义"混合策略。LLM语义匹配弥补冷启动与长尾短板。实时行为反馈权重、时间衰减因子、多样性打散。</div>
+      <div class="modal-bullet"><b>产品设计：</b>「猜你喜欢」推荐流覆盖3个场景+推荐理由文案。「AI导购助手」浮层对话式交互——多轮追问→补全条件→结构化Top 3推荐卡片。独立完成30+页面Figma高保真原型。</div>
+      <div class="modal-bullet"><b>技术实现：</b>选型通义千问-7B+RAG接入商品知识库和健身知识图谱。三维评测体系（准确性/相关性/有用性）。累计15+次模型微调。</div>
+      <div class="modal-bullet"><b>AB实验：</b>3组实验分别验证算法策略、UI布局、对话模式。混合策略CTR 53% vs 纯协同41% vs 热门35%。</div>
+      <div class="modal-label">项目成果</div>
+      <div class="modal-result"><b>推荐CTR：</b>8.2% → 12.4%（+51%），验证LLM语义增量价值。</div>
+      <div class="modal-result"><b>CVR：</b>4.7% → 11.6%（+147%），客单价128→279元（+118%）。</div>
+      <div class="modal-result"><b>MAU渗透率：</b>9.29%，成为平台第三大流量入口。</div>
+      <a class="modal-demo-btn" href="#" target="_blank" id="demoBtn-guide">🖥️ 查看在线演示 → <span style="font-size:10px;opacity:0.7">可交互的完整Demo</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: SCRM -->
+<div class="modal-overlay" id="modal-scrm" onclick="closeModalBg(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>👥 SCRM企业客户管理系统</h3>
+      <button class="modal-close" onclick="closeModal('modal-scrm')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:12px;color:var(--dim);font-family:var(--mono);margin-bottom:12px">2022.03 - 2023.01 · 乐刻 · 产品负责人 · 从0到1</div>
+      <div class="modal-bg"><b>项目背景：</b>转型PM后首个0→1产品。客户信息分散在Excel+微信群，信息完整度仅30%。销售无法有效跟踪客户，新客首月留存仅65%。亟需SCRM沉淀客户资产、标准化运营。</div>
+      <div class="modal-label">我的工作</div>
+      <div class="modal-bullet"><b>需求调研：</b>深度访谈15+位一线业务人员，拆解健身行业"获客→转化→留存→复购"全链路痛点，聚焦健身行业专属场景。</div>
+      <div class="modal-bullet"><b>产品设计：</b>RFM+行为偏好标签体系、360°客户画像、跟进时间线。5步SOP流程编排器（欢迎→跟进→优惠→到店邀请→召回），支持分支判断。全链路漏斗Dashboard。企微侧边栏嵌入客户画像卡片。</div>
+      <div class="modal-bullet"><b>设计驱动：</b>独立完成Figma高保真原型35+页面，交付仅3周，评审一稿通过率90%+。</div>
+      <div class="modal-bullet"><b>数据迭代：</b>埋点发现录入流失40%→企微API同步+OCR名片降至15%。SOP AB实验：自动组GMV+65%、人效4倍（200→1,000人）。</div>
+      <div class="modal-label">项目成果</div>
+      <div class="modal-result"><b>信息完整度：</b>30% → 85%+，为精细化运营奠定数据基础。</div>
+      <div class="modal-result"><b>新客留存：</b>首月65% → 80%（+15pp），SOP标准化触达降低流失。</div>
+      <div class="modal-result"><b>运营人效：</b>200→1,000人（4倍），SOP自动执行GMV+65%。</div>
+      <div class="modal-result"><b>销售人效：</b>月跟进200→500人（+150%），企微侧边栏一站式闭环。</div>
+      <a class="modal-demo-btn" href="#" target="_blank" id="demoBtn-scrm">🖥️ 查看在线演示 → <span style="font-size:10px;opacity:0.7">可交互的完整Demo</span></a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════ DEMO URLS ═══════════
+document.getElementById('adminEntry').href = 'http://localhost:8765/admin';
+
+var DEMO_URLS = {
+  service: 'https://wenda01.netlify.app/',
+  guide: 'https://tuijian01.netlify.app/',
+  scrm: 'https://scrm01.netlify.app/',
+};
+
+(function applyUrls() {
+  Object.keys(DEMO_URLS).forEach(function(key) {
+    var url = DEMO_URLS[key];
+    if (url && url !== '#') {
+      document.querySelectorAll('[id^="demoLink-' + key + '"], [id^="demoBtn-' + key + '"]').forEach(function(el) { el.href = url; });
+    } else {
+      document.querySelectorAll('[id^="demoLink-' + key + '"], [id^="demoBtn-' + key + '"]').forEach(function(el) { el.style.display = 'none'; });
+    }
+  });
+})();
+
+function openModal(id){
+  var m=document.getElementById(id);
+  if(m){m.classList.add('open');document.body.style.overflow='hidden'}
+}
+function closeModal(id){
+  var m=document.getElementById(id);
+  if(m){m.classList.remove('open');document.body.style.overflow=''}
+}
+function closeModalBg(e){
+  if(e.target.classList.contains('modal-overlay')){
+    e.target.classList.remove('open');
+    document.body.style.overflow='';
+  }
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    document.querySelectorAll('.modal-overlay.open').forEach(function(m){m.classList.remove('open')});
+    document.body.style.overflow='';
+  }
+});
+
+// Sparkles
+(function(){
+  var sparkles=['✦','✧','·','◆','◇'];
+  setInterval(function(){
+    if(document.hidden)return;
+    var el=document.createElement('span');
+    el.textContent=sparkles[Math.floor(Math.random()*sparkles.length)];
+    el.style.cssText='position:fixed;pointer-events:none;z-index:0;font-size:'+(8+Math.random()*10)+'px;color:rgba(212,145,62,'+(0.15+Math.random()*0.2)+');left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;animation:sparkle '+(2+Math.random()*3)+'s ease-out forwards;';
+    document.body.appendChild(el);
+    setTimeout(function(){el.remove()},3500);
+  },800);
+  var s=document.createElement('style');
+  s.textContent='@keyframes sparkle{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-60px) scale(0.3)}}';
+  document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>

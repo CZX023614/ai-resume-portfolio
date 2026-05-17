@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI数据驾驶舱 · 智能运营分析</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+:root {
+  --bg: #faf8f5; --card: #ffffff; --card2: #fefbf7; --border: #e8e2d8;
+  --text: #2c2416; --dim: #8a7e6b; --accent: #d4913e; --accent2: #e8784a;
+  --gold: #c8872b; --warm: #f0a050; --teal: #2d9d8c; --rose: #d4687c;
+  --green: #2d9d6c; --red: #d9534f;
+  --shadow: 0 2px 16px rgba(60,40,20,0.06);
+  --shadow-lg: 0 8px 40px rgba(60,40,20,0.10);
+  --radius: 16px; --radius-sm: 10px; --radius-xs: 6px;
+  --font: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  --mono: 'SF Mono', 'JetBrains Mono', 'Consolas', monospace;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
+.bg-orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(120px); opacity: 0.5; }
+.bg-orb-1 { width: 500px; height: 500px; background: #fce4c8; top: -150px; right: -100px; animation: float1 12s ease-in-out infinite; }
+.bg-orb-2 { width: 400px; height: 400px; background: #f5e0d0; bottom: -100px; left: -80px; animation: float2 10s ease-in-out infinite; }
+.bg-orb-3 { width: 300px; height: 300px; background: #e8e0d5; top: 50%; left: 50%; animation: float3 14s ease-in-out infinite; }
+@keyframes float1 { 0%,100% { transform: translate(0,0) } 50% { transform: translate(-40px,30px) } }
+@keyframes float2 { 0%,100% { transform: translate(0,0) } 50% { transform: translate(30px,-25px) } }
+@keyframes float3 { 0%,100% { transform: translate(0,0) } 50% { transform: translate(-20px,-20px) } }
+.app { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 24px 20px 60px; }
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 99px; border: 1px solid var(--border); margin-bottom: 28px; position: sticky; top: 12px; z-index: 100; box-shadow: var(--shadow); }
+.topbar-logo { font-weight: 800; font-size: 15px; color: var(--accent); letter-spacing: -0.5px; }
+.section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.section-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.section-icon.skills { background: #fef5eb; color: var(--accent); }
+.section-title { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+@media (max-width: 768px) { .app { padding: 12px; } .topbar { flex-wrap: wrap; gap: 8px; justify-content: center; border-radius: 20px; } }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px; }
+@media (max-width: 1000px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+.kpi-card { background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); text-align: center; transition: var(--transition); cursor: default; }
+.kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.kpi-value { font-size: 26px; font-weight: 800; font-family: var(--mono); color: var(--text); }
+.kpi-label { font-size: 11px; color: var(--dim); margin-top: 4px; }
+.kpi-delta { font-size: 12px; font-weight: 600; margin-top: 4px; }
+.kpi-delta.up { color: var(--teal); }
+.kpi-delta.down { color: var(--rose); }
+
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+@media (max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+.chart-box { background: var(--card); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); }
+.chart-box h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.chart-inner { width: 100%; height: 280px; }
+
+.alerts-panel { background: var(--card); border-radius: var(--radius); padding: 16px 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.alerts-panel h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.alert-item { padding: 10px 14px; margin: 6px 0; border-radius: var(--radius-sm); font-size: 13px; display: flex; align-items: center; gap: 10px; }
+.alert-item.warning { background: rgba(212,145,62,0.08); border-left: 3px solid var(--accent); }
+.alert-item.critical { background: rgba(212,104,124,0.08); border-left: 3px solid var(--rose); }
+
+.summary-box { background: var(--card); border-radius: var(--radius); padding: 20px 24px; box-shadow: var(--shadow); margin-bottom: 20px; border-left: 4px solid var(--accent); }
+.summary-box h4 { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.summary-text { font-size: 13.5px; color: var(--text); line-height: 1.85; }
+
+.query-section { background: var(--card); border-radius: var(--radius); padding: 16px 20px; box-shadow: var(--shadow); }
+.query-section h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.query-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.query-row input { flex: 1; padding: 10px 16px; border-radius: 99px; border: 1px solid var(--border); font-size: 13px; font-family: var(--font); background: var(--card2); outline: none; }
+.query-row input:focus { border-color: var(--accent); }
+.query-row button { padding: 10px 20px; border-radius: 99px; background: var(--accent); color: #fff; border: none; cursor: pointer; font-weight: 600; font-family: var(--font); font-size: 13px; }
+.query-row button:hover { background: var(--gold); }
+.query-result { padding: 12px 16px; background: var(--card2); border-radius: var(--radius-sm); font-size: 13px; line-height: 1.75; color: var(--text); margin-top: 8px; animation: fadeIn 0.3s ease; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 5px 12px; border-radius: 99px; border: 1px solid var(--border); background: var(--card); cursor: pointer; font-size: 11px; font-family: var(--font); color: var(--dim); transition: var(--transition); }
+.chip:hover { background: #fef5eb; color: var(--accent); border-color: var(--accent); }
+
+.refresh-indicator { font-size: 11px; color: var(--dim); display: flex; align-items: center; gap: 6px; }
+.refresh-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 2s ease infinite; }
+@keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: 0.3 } }
+
+.btn { padding: 8px 16px; border-radius: 99px; border: none; cursor: pointer; font-size: 11px; font-weight: 600; font-family: var(--font); background: var(--accent); color: #fff; transition: var(--transition); }
+.btn:hover { background: var(--gold); }
+</style>
+</head>
+<body>
+<div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div><div class="bg-orb bg-orb-3"></div>
+
+<div class="app">
+<nav class="topbar">
+  <span class="topbar-logo">蔡子贤 · AI数据驾驶舱</span>
+  <a href="#" id="backToResume" style="text-decoration:none;font-size:12px;color:var(--dim);padding:6px 14px;border-radius:99px;border:1px solid var(--border);transition:var(--transition)">← 返回简历</a>
+  <button class="btn" onclick="refreshAll()">🔄 刷新全部</button>
+</nav>
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+  <div class="section-head" style="margin-bottom:0"><div class="section-icon skills">📊</div><h2 class="section-title">AI数据驾驶舱 · 智能运营分析平台</h2></div>
+  <div class="refresh-indicator"><span class="refresh-dot"></span>实时监控中 · <span id="lastRefresh">--</span></div>
+</div>
+
+<div class="kpi-grid" id="kpiGrid"></div>
+
+<div class="charts-grid">
+  <div class="chart-box"><h4>📈 营收趋势（近30天）</h4><div class="chart-inner" id="chartRevenue"></div></div>
+  <div class="chart-box"><h4>🥧 品类营收分布</h4><div class="chart-inner" id="chartCategory"></div></div>
+  <div class="chart-box"><h4>👥 用户增长趋势</h4><div class="chart-inner" id="chartUsers"></div></div>
+  <div class="chart-box"><h4>🔄 转化漏斗</h4><div class="chart-inner" id="chartFunnel"></div></div>
+</div>
+
+<div class="alerts-panel" id="alertsPanel">
+  <h4>🚨 智能预警</h4><div style="font-size:12px;color:var(--dim)">加载中...</div>
+</div>
+
+<div class="summary-box" id="summaryBox">
+  <h4>🤖 AI经营日报 <span style="font-size:10px;font-weight:400;color:var(--dim)">· 基于LLM自动生成</span></h4>
+  <div class="summary-text" id="summaryText"><span class="spinner"></span> AI正在分析今日数据并生成经营日报...</div>
+</div>
+
+<div class="query-section">
+  <h4>💬 对话式数据查询（NL2SQL）</h4>
+  <div class="query-row">
+    <input type="text" id="nlInput" placeholder="用自然语言提问，例如：最近7天哪种会员卡卖得最好？" onkeydown="if(event.key==='Enter')nlQuery()">
+    <button onclick="nlQuery()">查询</button>
+  </div>
+  <div class="chips">
+    <button class="chip" onclick="nlQuick('今日营收和订单概况')">今日概况</button>
+    <button class="chip" onclick="nlQuick('最近7天哪天的营收最高？')">营收峰值</button>
+    <button class="chip" onclick="nlQuick('转化率趋势如何？')">转化趋势</button>
+    <button class="chip" onclick="nlQuick('客单价和退款率是什么水平？')">客单退款</button>
+    <button class="chip" onclick="nlQuick('会员卡和私教课哪个品类贡献最多营收？')">品类对比</button>
+  </div>
+  <div class="query-result" id="queryResult" style="display:none"></div>
+</div>
+</div>
+
+<script>
+document.getElementById('backToResume').href = 'https://resumeczx.netlify.app/';
+
+function refreshAll() { loadKPIs(); loadCharts(); loadAlerts(); loadReport(); }
+
+// KPI
+async function loadKPIs() {
+  try {
+    var r = await fetch('/api/data-cockpit/metrics');
+    var d = await r.json();
+    document.getElementById('lastRefresh').textContent = new Date().toLocaleTimeString();
+    var grid = document.getElementById('kpiGrid');
+    grid.innerHTML = '';
+    var kpis = [
+      {label:'今日营收', value:'¥'+(d.revenue/10000).toFixed(2)+'万', delta:d.deltas.revenue},
+      {label:'订单数', value:d.orders, delta:d.deltas.orders},
+      {label:'新用户', value:d.new_users, delta:d.deltas.new_users},
+      {label:'转化率', value:(d.conversion_rate*100).toFixed(1)+'%', delta:d.deltas.conversion_rate},
+      {label:'客单价', value:'¥'+d.avg_order_value.toFixed(0), delta:d.deltas.avg_order_value}
+    ];
+    kpis.forEach(function(k) {
+      var div = document.createElement('div');
+      div.className = 'kpi-card';
+      var cls = k.delta >= 0 ? 'up' : 'down';
+      div.innerHTML = '<div class="kpi-value">'+k.value+'</div><div class="kpi-label">'+k.label+'</div><div class="kpi-delta '+cls+'">'+(k.delta>=0?'↑':'↓')+' '+Math.abs(k.delta)+'%</div>';
+      grid.appendChild(div);
+    });
+  } catch(e) { console.error(e); }
+}
+
+// Charts
+async function loadCharts() {
+  try {
+    var r1 = await fetch('/api/data-cockpit/chart-data/revenue_trend');
+    var d1 = await r1.json();
+    var c1 = echarts.init(document.getElementById('chartRevenue'));
+    c1.setOption({
+      tooltip: {trigger:'axis'}, grid: {left:50,right:20,top:20,bottom:30},
+      xAxis: {type:'category',data:d1.x.map(function(x){return x.slice(5);}),axisLabel:{fontSize:10,color:'#8a7e6b'}},
+      yAxis: {type:'value',axisLabel:{fontSize:10,color:'#8a7e6b',formatter:function(v){return '¥'+(v/10000).toFixed(0)+'w';}}},
+      series: [{name:'营收',type:'line',data:d1.series[0].data,smooth:true,lineStyle:{color:'#d4913e',width:2},itemStyle:{color:'#d4913e'},areaStyle:{color:'rgba(212,145,62,0.08)'}}]
+    });
+
+    var r2 = await fetch('/api/data-cockpit/chart-data/category_pie');
+    var d2 = await r2.json();
+    var c2 = echarts.init(document.getElementById('chartCategory'));
+    c2.setOption({
+      tooltip: {trigger:'item',formatter:'{b}: ¥{c} ({d}%)'},
+      series: [{type:'pie',radius:['45%','75%'],center:['50%','50%'],data:d2.data,label:{fontSize:11,color:'#8a7e6b'},itemStyle:{borderColor:'#fff',borderWidth:2}}],
+      color: ['#d4913e','#e8784a','#f0a050','#c8872b']
+    });
+
+    var r3 = await fetch('/api/data-cockpit/chart-data/user_growth');
+    var d3 = await r3.json();
+    var c3 = echarts.init(document.getElementById('chartUsers'));
+    c3.setOption({
+      tooltip: {trigger:'axis'}, grid: {left:50,right:20,top:20,bottom:30},
+      xAxis: {type:'category',data:d3.x.map(function(x){return x.slice(5);}),axisLabel:{fontSize:10,color:'#8a7e6b'}},
+      yAxis: {type:'value',axisLabel:{fontSize:10,color:'#8a7e6b'}},
+      series: [
+        {name:'新用户',type:'bar',data:d3.series[0].data,itemStyle:{color:'#d4913e',borderRadius:[4,4,0,0]}},
+        {name:'活跃(÷100)',type:'line',data:d3.series[1].data,lineStyle:{color:'#e8784a',width:2},itemStyle:{color:'#e8784a'}}
+      ]
+    });
+
+    var r4 = await fetch('/api/data-cockpit/chart-data/conversion_funnel');
+    var d4 = await r4.json();
+    var c4 = echarts.init(document.getElementById('chartFunnel'));
+    c4.setOption({
+      tooltip: {trigger:'item'},
+      series: [{type:'funnel',left:'15%',top:20,bottom:20,width:'70%',sort:'descending',gap:2,data:d4.labels.map(function(l,i){return {name:l,value:d4.data[i]};}),label:{fontSize:11,color:'#8a7e6b'},itemStyle:{borderWidth:0}}],
+      color: ['#d4913e','#e8784a','#f0a050','#c8872b']
+    });
+
+    window.__charts = [c1,c2,c3,c4];
+    window.addEventListener('resize', function(){ (window.__charts||[]).forEach(function(c){c.resize();}); });
+  } catch(e) { console.error(e); }
+}
+
+// Alerts
+async function loadAlerts() {
+  try {
+    var r = await fetch('/api/data-cockpit/alerts');
+    var alerts = await r.json();
+    var panel = document.getElementById('alertsPanel');
+    if (!alerts.length) { panel.innerHTML = '<h4>🚨 智能预警</h4><div style="font-size:12px;color:var(--teal)">✅ 当前无异常，所有指标正常范围内</div>'; return; }
+    var html = '<h4>🚨 智能预警</h4>';
+    alerts.forEach(function(a) { html += '<div class="alert-item '+a.severity+'"><span>'+(a.severity==='critical'?'🔴':'🟡')+'</span><b>'+a.name+'异常'+a.direction+'</b>: 当前'+a.current+' vs 7日均值'+a.mean_7d+' (Z-score: '+a.z_score+')</div>'; });
+    panel.innerHTML = html;
+  } catch(e) { console.error(e); }
+}
+
+// AI Daily Report
+async function loadReport() {
+  try {
+    var resp = await fetch('/api/data-cockpit/daily-summary');
+    var reader = resp.body.getReader();
+    var decoder = new TextDecoder();
+    var el = document.getElementById('summaryText');
+    el.innerHTML = '';
+    var buf = '';
+    while (true) {
+      var result = await reader.read();
+      if (result.done) break;
+      buf += decoder.decode(result.value, {stream:true});
+      var lines = buf.split('\n');
+      buf = lines.pop() || '';
+      for (var i = 0; i < lines.length; i++) {
+        if (lines[i].startsWith('data: ')) {
+          try { var data = JSON.parse(lines[i].slice(6)); if (data.done) break; if (data.text) el.innerHTML += data.text; } catch(e) {}
+        }
+      }
+    }
+    el.innerHTML = el.innerHTML.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+  } catch(e) { document.getElementById('summaryText').textContent = '⚠️ 日报生成失败：'+e.message; }
+}
+
+// NL Query
+async function nlQuery(text) {
+  var q = text || document.getElementById('nlInput').value.trim();
+  if (!q) return;
+  var resultDiv = document.getElementById('queryResult');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<span class="spinner"></span> AI正在分析...';
+  try {
+    var r = await fetch('/api/data-cockpit/nl-query', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({query:q}) });
+    var data = await r.json();
+    resultDiv.innerHTML = '<b>💬 '+q+'</b><br><br>'+(data.answer||'暂无分析结果');
+    if (data.insight) resultDiv.innerHTML += '<br><br>💡 <span style="color:var(--accent);font-weight:600">洞察:</span> '+data.insight;
+  } catch(e) { resultDiv.innerHTML = '⚠️ 查询失败：'+e.message; }
+}
+
+function nlQuick(text) { document.getElementById('nlInput').value = text; nlQuery(text); }
+
+loadKPIs(); loadCharts(); loadAlerts(); loadReport();
+</script>
+</body>
+</html>
