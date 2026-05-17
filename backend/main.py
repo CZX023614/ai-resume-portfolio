@@ -29,6 +29,8 @@ ROOT_DIR = BASE_DIR.parent  # standalone-pages root
 app.mount("/resume", StaticFiles(directory=str(ROOT_DIR / "ai-resume"), html=True), name="resume")
 app.mount("/service", StaticFiles(directory=str(ROOT_DIR / "ai-customer-service"), html=True), name="service")
 app.mount("/guide", StaticFiles(directory=str(ROOT_DIR / "ai-shopping-guide"), html=True), name="guide")
+app.mount("/scrm", StaticFiles(directory=str(ROOT_DIR / "scrm-system"), html=True), name="scrm")
+app.mount("/cockpit", StaticFiles(directory=str(ROOT_DIR / "ai-data-cockpit"), html=True), name="cockpit")
 
 @app.get("/")
 def home():
