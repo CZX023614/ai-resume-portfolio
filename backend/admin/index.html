@@ -151,12 +151,24 @@ td .truncate{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:
 .config-item .config-hint{font-size:11px;color:var(--text3);margin-top:4px}
 
 /* ═══════ RESPONSIVE ═══════ */
+.menu-toggle{display:none;position:fixed;top:12px;left:12px;z-index:110;width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--border);cursor:pointer;font-size:18px;box-shadow:var(--shadow);align-items:center;justify-content:center}
 @media(max-width:900px){
-  .sidebar{transform:translateX(-100%)}
+  .menu-toggle{display:flex}
+  .sidebar{transform:translateX(-100%);box-shadow:var(--shadow-lg)}
   .sidebar.open{transform:translateX(0)}
   .main{margin-left:0;padding:16px}
   .stats-row{grid-template-columns:repeat(2,1fr)}
   .form-row{grid-template-columns:1fr}
+  .page-header{flex-direction:column;align-items:flex-start}
+  .page-title{font-size:18px}
+  .card-header{flex-direction:column;align-items:flex-start;gap:8px}
+  .card-tools{width:100%;flex-wrap:wrap}
+  .card-tools input,.card-tools select{flex:1;min-width:120px}
+  .config-grid{grid-template-columns:1fr}
+  table{font-size:11px}
+  th,td{padding:6px 8px}
+  .modal{width:96vw;padding:16px 14px}
+  .form-inline{flex-direction:column}
 }
 
 /* ═══════ MISC ═══════ */
@@ -170,6 +182,7 @@ code{font-size:11px;background:var(--surface2);padding:2px 6px;border-radius:3px
 </style>
 </head>
 <body>
+<button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 
 <!-- ════════════════ SIDEBAR ════════════════ -->
 <aside class="sidebar" id="sidebar">
@@ -322,6 +335,7 @@ function switchPage(page) {
   const pageEl = $(`#page-${page}`);
   if (pageEl) pageEl.classList.add('active');
   if (pageRenderers[page]) pageRenderers[page]();
+  document.getElementById('sidebar').classList.remove('open');
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
